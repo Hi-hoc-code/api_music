@@ -1,0 +1,58 @@
+Song Endpoints:
+Lấy tất cả bài hát
+GET http://localhost:5000/api/songs
+(Trả về danh sách tất cả bài hát)
+
+Lấy bài hát theo ID
+GET http://localhost:5000/api/songs/:id
+(Trả về thông tin chi tiết của một bài hát theo ID)
+
+Tạo bài hát mới
+POST http://localhost:5000/api/songs
+(Tạo một bài hát mới)
+
+Cập nhật bài hát theo ID
+PUT http://localhost:5000/api/songs/:id
+(Cập nhật một bài hát theo ID)
+
+Xóa bài hát theo ID
+DELETE http://localhost:5000/api/songs/:id
+(Xóa một bài hát theo ID)
+
+Lấy danh sách bài hát theo thể loại (genre)
+GET http://localhost:5000/api/songs/genre/:genreId
+(Trả về các bài hát thuộc thể loại có ID cụ thể)
+
+Lấy danh sách bài hát theo nghệ sĩ (artist)
+GET http://localhost:5000/api/songs/artist/:artistId
+(Trả về các bài hát của nghệ sĩ có ID cụ thể)
+
+Lấy danh sách bài hát theo album
+GET http://localhost:5000/api/songs/album/:albumId
+(Trả về các bài hát thuộc album có ID cụ thể)
+
+Thêm bài hát vào playlist
+PUT http://localhost:5000/api/songs/:playlistId/addSong/:songId
+(Thêm bài hát vào playlist)
+
+Playlist Endpoints:
+Tạo playlist mới
+POST http://localhost:5000/api/playlists
+(Tạo một playlist mới)
+
+Lấy tất cả playlist
+GET http://localhost:5000/api/playlists
+(Trả về danh sách tất cả playlist)
+
+Lấy playlist theo ID
+GET http://localhost:5000/api/playlists/:id
+(Trả về thông tin chi tiết của một playlist theo ID)
+
+Cập nhật playlist theo ID
+PUT http://localhost:5000/api/playlists/:id
+(Cập nhật một playlist theo ID)
+
+Xóa playlist theo ID
+DELETE http://localhost:5000/api/playlists/:id
+(Xóa một playlist theo ID)
+
