@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+const connectDB = require('./src/config/db');
 
 // Load environment variables
 dotenv.config();
@@ -14,8 +14,8 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use('/api/songs', require('./routes/songRoutes'));
-app.use('/api/playlists', require('./routes/playlistRoutes'));
+app.use('/api/songs', require('./src/routes/songRoutes'));
+app.use('/api/playlists', require('./src/routes/playlistRoutes'));
 
 // Start server
 const PORT = process.env.PORT || 5000;
