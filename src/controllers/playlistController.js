@@ -1,20 +1,23 @@
-const Playlist = require('../models/Playlist')
-const mongoose = require('mongoose')
+const Playlist = require('../models/Playlist');
 
-const findPlaylist = async (req, res) => {
+const getAllPlaylist = async (req, res) => {
+   
+};
 
-}
+const getPlaylistById = async (req, res) => {
+   
+};
 
 const createPlaylist = async (req, res) => {
+    
+};
 
-}
+const updatePlaylist = async (req, res) => {
+   
+};
 
 const deletePlaylist = async (req, res) => {
+   
+};
 
-}
-
-const editPlaylist = async (req, res) => {
-
-}
-
-
+module.exports = { getAllPlaylist, getPlaylistById, createPlaylist, updatePlaylist, deletePlaylist };

@@ -1,20 +1,27 @@
 const express = require('express');
+const {
+    addSong,
+    updateSong,
+    deleteSong,
+    findSongByID,
+    findSongByAlbum,
+    findSongByArtist,
+    findSongByPlayList,
+    findSongByTrending,
+    fileSongByFavorite
+} = require('../controllers/SongController');
+const auth = require('../middlewares/auth'); 
+
 const router = express.Router();
-const songController = require('../controllers/SongController');
 
-// CRUD for songs
-router.get('/', songController.getAllSongs);
-router.get('/:id', songController.getSongById);
-router.post('/', songController.createSong);
-router.put('/:id', songController.updateSong);
-router.delete('/:id', songController.deleteSong);
-
-// CRUD for songs by genre, artist, album
-router.get('/genre/:genreId', songController.getSongsByGenre);
-router.get('/artist/:artistId', songController.getSongsByArtist);
-router.get('/album/:albumId', songController.getSongsByAlbum);
-
-// Add song to playlist
-router.put('/:playlistId/addSong/:songId', songController.addSongToPlaylist);
+router.post('/', addSong); 
+router.put('/:id', auth, updateSong); 
+router.delete('/:id', auth, deleteSong); 
+router.get('/:id', findSongByID); 
+router.get('/album/:albumId', findSongByAlbum);
+router.get('/artist/:artistId', findSongByArtist);
+router.get('/playlist/:playlistId', findSongByPlayList); 
+router.get('/trending', findSongByTrending); 
+router.get('/favorites', fileSongByFavorite);
 
 module.exports = router;

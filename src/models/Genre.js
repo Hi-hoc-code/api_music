@@ -1,8 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Genre = new mongoose.Schema({
-    name: { type: String, required: true },
-    description: String,
-    createDate: { type: Date, default: Date.now },
-    imgGenre: String,
-})
+const GenreSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: String,
+  createDate: { type: Date, default: Date.now },
+  imgGenre: String,
+});
+
+module.exports = mongoose.model('Genre', GenreSchema);
