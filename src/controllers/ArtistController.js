@@ -19,7 +19,7 @@ const getArtistById = async (req, res) => {
     }
 };
 const createArtist = async (req, res) => {
-    const { name, bio, genres, avatar } = req.body; 
+    const { name, bio, genres, avatar } = req.body;
 
     if (!name) {
         return res.status(400).json({ message: "'name' is required." });

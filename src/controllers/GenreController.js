@@ -24,8 +24,21 @@ const createGenre = async (req, res) => {
   try {
     const { name, description } = req.body;
 
+    // Kiểm tra nếu thể loại đã tồn tại
+    const existingGenre = await Genre.findOne({ name });
+    if (existingGenre) {
+      return res.status(400).json({ message: 'Thể loại đã tồn tại.' });
+    }
+
+    // Kiểm tra nếu có file được tải lên
+    if (!req.file) {
+      return res.status(400).json({ message: "Thiếu file ảnh cho thể loại." });
+    }
+
+    // Tải lên ảnh qua Cloudinary nếu không tồn tại
     const result = await cloudinary.uploader.upload(req.file.path);
 
+    // Tạo thể loại mới
     const newGenre = new Genre({
       name,
       description,
@@ -35,10 +48,12 @@ const createGenre = async (req, res) => {
     await newGenre.save();
     res.status(201).json(newGenre);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating genre' });
-    console.log(error)
+    res.status(500).json({ message: 'Error creating genre: ' + error.message });
+    console.log(error);
   }
 };
+
+
 
 const updateGenre = async (req, res) => {
   try {

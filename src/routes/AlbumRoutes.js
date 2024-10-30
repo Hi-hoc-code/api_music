@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', getAllAlbum);
 router.get('/:id', getAlbumById);
 router.post('/', multer.single('imgAlbum'), createAlbum);
-router.put('/:id', updateAlbum);
+router.put('/', updateAlbum);
 router.delete('/:id', deleteAlbum);
 
 

@@ -1,6 +1,17 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+require('dotenv').config();
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
 const register = async (req, res) => {
     try {
@@ -33,14 +44,61 @@ const login = async (req, res) => {
 };
 
 const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: "Email không tồn tại!" });
+        }
+
+        // Tạo mã OTP
+        const otp = crypto.randomInt(100000, 999999);
+        const otpExpires = Date.now() + 15 * 60 * 1000;
+
+        // Lưu OTP và thời gian hết hạn
+        user.otp = otp;
+
+        user.otpExpires = otpExpires;
+        await user.save();
+        console.log("Mã OTP được lưu:", user.otp); // Ghi log OTP
+
+        // Gửi email chứa mã OTP
+        await transporter.sendMail({
+            to: email,
+            subject: "Password Reset OTP",
+            text: `Mã OTP của bạn là ${otp}. Mã có hiệu lực trong 15 phút.`,
+        });
+
+        res.json({ message: "Mã OTP đã được gửi đến email!" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 const resetPassword = async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+
+        // Tìm user dựa trên email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "Không tìm thấy người dùng với email này." });
+        }
+
+        // Đặt lại mật khẩu
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+
+        res.json({ message: "Mật khẩu đã được đặt lại thành công!" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 const upPremium = async (req, res) => {
     try {
-        const userId = req.user.id; 
+        const userId = req.user.id;
         await User.findByIdAndUpdate(userId, { premium: true });
         res.json({ message: "Account upgraded to premium!" });
     } catch (error) {

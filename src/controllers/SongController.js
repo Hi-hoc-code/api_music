@@ -5,6 +5,7 @@ const addSong = async (req, res) => {
     const { nameSong, artist, genre, album, releaseYear, duration, imgSong, audioSong } = req.body;
 
     try {
+        // Tạo bài hát mới
         const newSong = new Song({
             nameSong,
             artist,
@@ -18,10 +19,11 @@ const addSong = async (req, res) => {
 
         const savedSong = await newSong.save();
 
-        if (album) {
-            await Album.findByIdAndUpdate(album, {
-                $push: { songs: savedSong._id }
-            });
+        if (album && album.length > 0) {
+            await Album.updateMany(
+                { _id: { $in: album } },
+                { $push: { song: savedSong._id } }
+            );
         }
 
         res.status(201).json(savedSong);
@@ -29,6 +31,7 @@ const addSong = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 
 const updateSong = async (req, res) => {
@@ -67,7 +70,7 @@ const findSongByID = async (req, res) => {
 const findSongByAlbum = async (req, res) => {
     try {
         const { albumId } = req.params;
-        const songs = await Song.find({ album: albumId }); 
+        const songs = await Song.find({ album: albumId });
         res.json(songs);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -107,9 +110,9 @@ const findSongByTrending = async (req, res) => {
 
 const fileSongByFavorite = async (req, res) => {
     try {
-        const userId = req.user.id; 
+        const userId = req.user.id;
         const favoriteSongs = await Song.find({ favorite: userId });
-        
+
         res.json(favoriteSongs);
     } catch (error) {
         res.status(500).json({ message: error.message });
