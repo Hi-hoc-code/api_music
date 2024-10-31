@@ -39,7 +39,7 @@ const createPlaylist = async (req, res) => {
         // Cập nhật vào user
         await User.findByIdAndUpdate(
             req.body.user,
-            { $push: { playlist: savedPlaylist._id } }, // Thêm playlist ID vào mảng playlist của user
+            { $push: { playlist: savedPlaylist._id } }, 
             { new: true }
         );
 
