@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema({
     favoriteSong: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
     playlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
+    otp: { type: String },
+    otpExpires: { type: Date } // Thêm trường otpExpires
 });
 
 module.exports = mongoose.model('User', UserSchema);
