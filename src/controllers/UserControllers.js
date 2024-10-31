@@ -51,18 +51,15 @@ const forgotPassword = async (req, res) => {
             return res.status(404).json({ message: "Email không tồn tại!" });
         }
 
-        // Tạo mã OTP
         const otp = crypto.randomInt(100000, 999999);
         const otpExpires = Date.now() + 15 * 60 * 1000;
 
-        // Lưu OTP và thời gian hết hạn
         user.otp = otp;
 
         user.otpExpires = otpExpires;
         await user.save();
-        console.log("Mã OTP được lưu:", user.otp); // Ghi log OTP
+        console.log("Mã OTP được lưu:", user.otp);
 
-        // Gửi email chứa mã OTP
         await transporter.sendMail({
             to: email,
             subject: "Password Reset OTP",
@@ -79,14 +76,12 @@ const resetPassword = async (req, res) => {
     try {
         const { email, newPassword } = req.body;
 
-        // Tìm user dựa trên email
         const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ message: "Không tìm thấy người dùng với email này." });
         }
 
-        // Đặt lại mật khẩu
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();
 

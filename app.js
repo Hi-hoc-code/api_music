@@ -6,7 +6,7 @@ const userRoutes = require('./src/routes/userRoutes');
 const albumRoutes = require('./src/routes/AlbumRoutes');
 const artistRoutes = require('./src/routes/ArtistRoutes');
 const genreRoutes = require('./src/routes/GenreRoutes');
-// const playlistRoutes = require('./src/routes/PlaylistRoutes');
+const playlistRoutes = require('./src/routes/PlaylistRoutes');
 const songRoutes = require('./src/routes/songRoutes');
 
 // Import kết nối MongoDB
@@ -25,7 +25,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/albums', albumRoutes);
 app.use('/api/artists', artistRoutes);
 app.use('/api/genres', genreRoutes);
-// app.use('/api/playlists', playlistRoutes);
+app.use('/api/playlists', playlistRoutes);
 app.use('/api/songs', songRoutes);
 // Thiết lập cổng và chạy server
 const PORT = process.env.PORT || 5000;

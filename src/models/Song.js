@@ -4,7 +4,7 @@ const SongSchema = new mongoose.Schema({
     nameSong: { type: String, required: true },
     artist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artist' }],
     genre: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }],
-    album:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Album' }],
+    album: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Album' }],
     releaseYear: Date,
     duration: String,
     imgSong: String,

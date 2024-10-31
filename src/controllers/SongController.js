@@ -5,7 +5,6 @@ const addSong = async (req, res) => {
     const { nameSong, artist, genre, album, releaseYear, duration, imgSong, audioSong } = req.body;
 
     try {
-        // Tạo bài hát mới
         const newSong = new Song({
             nameSong,
             artist,
