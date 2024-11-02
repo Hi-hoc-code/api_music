@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
     playlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],
     history: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
     otp: { type: String },
-    otpExpires: { type: Date } // Thêm trường otpExpires
+    otpExpires: { type: Date } 
 });
 
 module.exports = mongoose.model('User', UserSchema);

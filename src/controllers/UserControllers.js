@@ -55,37 +55,6 @@ const getUserOtp = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-// const forgotPassword = async (req, res) => {
-//     try {
-//         const { email } = req.body;
-//         const user = await User.findOne({ email });
-//         if (!user) {
-//             return res.status(404).json({ message: "Email không tồn tại!" });
-//         }
-
-//         const otp = crypto.randomInt(100000, 999999); // Tạo mã OTP ngẫu nhiên
-//         const otpExpires = Date.now() + 15 * 60 * 1000; // Đặt thời gian hết hạn cho mã OTP
-
-//         // Cập nhật mã OTP và thời gian hết hạn
-//         user.otp = otp;
-//         console.log(user.otp)
-//         user.otpExpires = otpExpires; // Cập nhật thời gian hết hạn
-//         await user.save(); // Lưu thông tin người dùng với mã OTP mới
-
-//         console.log("Mã OTP được lưu:", user.otp);
-
-//         await transporter.sendMail({
-//             to: email,
-//             subject: "Password Reset OTP",
-//             text: `Mã OTP của bạn là ${otp}. Mã có hiệu lực trong 15 phút.`,
-//         });
-
-//         res.json({ message: "Mã OTP đã được gửi đến email!" });
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// };
-
 const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
@@ -95,17 +64,20 @@ const forgotPassword = async (req, res) => {
         }
 
         const otp = crypto.randomInt(100000, 999999); // Tạo mã OTP ngẫu nhiên
+        const otpExpires = Date.now() + 15 * 60 * 1000; // Đặt thời gian hết hạn cho mã OTP
 
-        // Cập nhật mã OTP mà không cập nhật thời gian hết hạn
+        // Cập nhật mã OTP và thời gian hết hạn
         user.otp = otp;
-        await user.save(); // Lưu thông tin người dùng với mã OTP mới
+        console.log(user.otp)
+        user.otpExpires = otpExpires; // Cập nhật thời gian hết hạn
+        await user.save(); 
 
         console.log("Mã OTP được lưu:", user.otp);
 
         await transporter.sendMail({
             to: email,
             subject: "Password Reset OTP",
-            text: `Mã OTP của bạn là ${otp}.`,
+            text: `Mã OTP của bạn là ${otp}. Mã có hiệu lực trong 15 phút.`,
         });
 
         res.json({ message: "Mã OTP đã được gửi đến email!" });
@@ -113,6 +85,7 @@ const forgotPassword = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 
 const resetPassword = async (req, res) => {
